@@ -9,7 +9,6 @@ class BlednyArgumentKonstruktora : public std::exception
     std::string blad;
 
     public:
-    
     BlednyArgumentKonstruktora(int n)
     {
        blad = "Argument: " + std::to_string(n) + " nie jest poprawnym argumentem. Argument powinien byc liczba dodatnia.";
