@@ -1,9 +1,5 @@
 #include "Figura.h"
 #include <cmath>
-#include <exception>
-#include <string>
-#include <sstream>
-#include <iostream>
 
 
 //Okrag
