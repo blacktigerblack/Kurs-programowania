@@ -6,9 +6,9 @@ public abstract class Figura {
 class Okrag extends Figura {
     private double promien;
 
-    public Okrag(double r) throws BlednyBok {
+    public Okrag(double r) throws BladBok {
         if(r <= 0)
-            throw new BlednyBok();
+            throw new BladBok();
         
         promien = r;
     }
@@ -25,9 +25,9 @@ class Okrag extends Figura {
 class Pieciokat extends Figura {
     private double bok;
 
-    public Pieciokat(double b) throws BlednyBok {
+    public Pieciokat(double b) throws BladBok {
         if(b <= 0)
-            throw new BlednyBok();
+            throw new BladBok();
         
         bok = b;
     }
@@ -44,9 +44,9 @@ class Pieciokat extends Figura {
 class Szesciokat extends Figura {
     private double bok;
 
-    public Szesciokat(double b) throws BlednyBok {
+    public Szesciokat(double b) throws BladBok {
         if(b <= 0)
-            throw new BlednyBok();
+            throw new BladBok();
         
         bok = b;
     }
@@ -61,10 +61,11 @@ class Szesciokat extends Figura {
 }
 
 abstract class Czworokat extends Figura {
-    public static Czworokat rozpoznaj(double bokA, double bokB, double bokC, double bokD, double kat) throws BlednyCzworokat, BlednyBok, BlednyKat {
+    public static Czworokat rozpoznaj(double bokA, double bokB, double bokC, double bokD, double kat) throws BladCzworokat, BladBok, BladKat {
         if((bokA == bokB) && (bokA == bokC) && (bokA == bokD)) {
             if(kat == 90)
                 return new Kwadrat(bokA);
+            
             return new Romb(bokA, kat);
         }
         if((((bokA == bokB) && (bokC == bokD)) || ((bokA == bokC) && (bokB == bokD)) || ((bokA == bokD) && (bokB == bokC))) && kat == 90) {
@@ -74,19 +75,20 @@ abstract class Czworokat extends Figura {
                 b = bokC;
             else
                 b = bokB;
+            
             return new Prostokat(a, b);
         }
 
-        throw new BlednyCzworokat();
+        throw new BladCzworokat();
     }
 }
 
 class Kwadrat extends Czworokat {
     private double bok;
 
-    public Kwadrat(double b) throws BlednyBok {
+    public Kwadrat(double b) throws BladBok {
         if(b <= 0)
-            throw new BlednyBok();
+            throw new BladBok();
         
         bok = b;
     }
@@ -104,9 +106,9 @@ class Prostokat extends Czworokat {
     private double bokA;
     private double bokB;
 
-    public Prostokat(double a, double b) throws BlednyBok {
+    public Prostokat(double a, double b) throws BladBok {
         if(a <= 0 || b <= 0)
-            throw new BlednyBok();
+            throw new BladBok();
         
         bokA = a;
         bokB = b;
@@ -125,11 +127,11 @@ class Romb extends Czworokat {
     private double bok;
     private double kat;
 
-    public Romb(double b, double k) throws BlednyBok, BlednyKat {
+    public Romb(double b, double k) throws BladBok, BladKat {
         if(b <= 0)
-            throw new BlednyBok();
+            throw new BladBok();
         if(k <= 0 || k >= 180)
-            throw new BlednyKat(k);
+            throw new BladKat();
         
         bok = b;
         kat = k;
@@ -144,26 +146,34 @@ class Romb extends Czworokat {
     }
 }
 
-class BlednyKat extends Exception {
-    public BlednyKat(double k) {
-        super("Bledny kat: " + k + ". Kat powinien byc w zakresie (0, 180).");
+
+
+class Blad extends Exception {
+    public Blad(String blad) {
+        super(blad);
     }
 }
 
-class BlednyCzworokat extends Exception {
-    public BlednyCzworokat() {
+class BladKat extends Blad {
+    public BladKat() {
+        super("Bledny kat. Kat powinien byc w zakresie (0, 180).");
+    }
+}
+
+class BladCzworokat extends Blad {
+    public BladCzworokat() {
         super("Brak obslugi czworokata o podanych parametrach.");
     }
 }
 
-class BlednyBok extends Exception {
-    public BlednyBok() {
+class BladBok extends Blad {
+    public BladBok() {
         super("Niepoprawna wartosc dlugosci boku.");
     }
 }
 
-class BlednaFigura extends Exception {
-    public BlednaFigura() {
+class BladFigura extends Blad {
+    public BladFigura() {
         super("Brak obsugi danej figury.");
     }
 }
